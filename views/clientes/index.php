@@ -58,6 +58,9 @@
                         <th>Apellido</th>
                         <th>Nit</th>
                         <th>Telefono</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -70,5 +73,5 @@
     </div>
 </div>
 <script defer src="/carpio_guerra_is2-crudjs/src/js/funciones.js"></script>
-<script defer src="/carpio_guerra_is2-crudjs/src/js/productos/index.js"></script>
+<script defer src="/carpio_guerra_is2-crudjs/src/js/clientes/index.js"></script>
 <?php include_once '../../includes/footer.php' ?>

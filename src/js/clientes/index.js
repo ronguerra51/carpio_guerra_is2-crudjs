@@ -50,15 +50,16 @@ const getClientes = async () => {
                     const celda3 = document.createElement('td')
                     const celda4 = document.createElement('td')
                     const celda5 = document.createElement('td')
+                    const celda6 = document.createElement('td')
+                    const celda7 = document.createElement('td')
                     const buttonModificar = document.createElement('button')
                     const buttonEliminar = document.createElement('button')
 
                     celda1.innerText = contador;
                     celda2.innerText = cliente.cliente_nombre;
                     celda3.innerText = cliente.cliente_apellido;
-                    celda3.innerText = cliente.cliente_nit;
-                    celda3.innerText = cliente.cliente_telefono;
-
+                    celda4.innerText = cliente.cliente_nit;
+                    celda5.innerText = cliente.cliente_telefono;
 
                     buttonModificar.textContent = 'Modificar'
                     buttonModificar.classList.add('btn', 'btn-warning', 'w-100')
@@ -66,14 +67,16 @@ const getClientes = async () => {
                     buttonEliminar.textContent = 'Eliminar'
                     buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
 
-                    celda4.appendChild(buttonModificar)
-                    celda5.appendChild(buttonEliminar)
+                    celda6.appendChild(buttonModificar)
+                    celda7.appendChild(buttonEliminar)
 
                     tr.appendChild(celda1)
                     tr.appendChild(celda2)
                     tr.appendChild(celda3)
                     tr.appendChild(celda4)
                     tr.appendChild(celda5)
+                    tr.appendChild(celda6)
+                    tr.appendChild(celda7)
                     fragment.appendChild(tr);
 
                     contador++
