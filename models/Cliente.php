@@ -55,20 +55,4 @@ class Cliente extends Conexion
         $resultado = self::servir($sql);
         return $resultado;
     }
-
-    // public function modificar()
-    // {
-    //     $sql = "UPDATE productos SET producto_nombre = '$this->producto_nombre', producto_precio = $this->producto_precio where producto_id = $this->producto_id";
-
-    //     $resultado = self::ejecutar($sql);
-    //     return $resultado;
-    // }
-
-    // public function eliminar()
-    // {
-    //     $sql = "UPDATE productos SET producto_situacion = 0 where producto_id = $this->producto_id";
-
-    //     $resultado = self::ejecutar($sql);
-    //     return $resultado;
-    // }
 }
