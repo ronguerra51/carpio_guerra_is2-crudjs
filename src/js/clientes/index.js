@@ -63,6 +63,7 @@ const getClientes = async () => {
 
                     buttonModificar.textContent = 'Modificar'
                     buttonModificar.classList.add('btn', 'btn-warning', 'w-100')
+                    buttonModificar.addEventListener('click', () => llenardatos(cliente) )
 
                     buttonEliminar.textContent = 'Eliminar'
                     buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
@@ -147,9 +148,99 @@ const guardarCliente = async (e) => {
         console.log(error);
     }
     btnGuardar.disabled = false;
+};
+
+const llenardatos = (cliente) => {
+
+    formulario.cliente_id.value = cliente.cliente_id
+    formulario.cliente_nombre.value = cliente.cliente_nombre
+    formulario.cliente_apellido.value = cliente.cliente_apellido
+    formulario.cliente_nit.value = cliente.cliente_nit
+    formulario.cliente_telefono.value = cliente.cliente_telefono
+    btnBuscar.parentElement.style.display = 'none'
+    btnGuardar.parentElement.style.display = 'none'
+    btnLimpiar.parentElement.style.display = 'none'
+    btnModificar.parentElement.style.display = ''
+    btnCancelar.parentElement.style.display = ''
+
 }
 
+const modificar = async(e) => {
+    e.preventDefault();
+    btnModificar.disabled = true;
+     
+    const url = '/carpio_guerra_is2-crudjs/controllers/clientes/index.php';
+    const formData = new FormData(formulario);
+    formData.append('tipo', 2);
+    formData.append('cliente_id', formulario.cliente_id.value);
+    const config = {
+        method: 'POST',
+        body: formData
+    };
 
+    try {
+        console.log('Enviando datos:', ...formData.entries());
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log('Respuesta recibida:', data);
+        const { mensaje, codigo, detalle } = data;
+        if (respuesta.ok && codigo === 1) {
+            Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                icon: "success",
+                title: mensaje,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            }).fire();
+            formulario.reset()
+            getClientes();
+            btnBuscar.parentElement.style.display = ''
+            btnGuardar.parentElement.style.display = ''
+            btnLimpiar.parentElement.style.display = ''
+            btnModificar.parentElement.style.display = 'none'
+            btnCancelar.parentElement.style.display = 'none'
+         
+        } else {
+            console.log('Error:', detalle);
+            Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                icon: "error",
+                title: 'Error al guardar',
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            }).fire();
+        }
+    } catch (error) {
+        console.log('Error de conexión:', error);
+        Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            icon: "error",
+            title: 'Error de conexión',
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        }).fire();
+    }
+    btnModificar.disabled = false;
+}
 
 formulario.addEventListener('submit', guardarCliente)
 btnBuscar.addEventListener('click', getClientes)
+btnModificar.addEventListener('click', modificar)

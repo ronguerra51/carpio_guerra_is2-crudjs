@@ -37,15 +37,15 @@ class Cliente extends Conexion
         }
 
         if ($this->cliente_apellido != '') {
-            $sql .= " and cliente_apellido = $this->cliente_apellido ";
+            $sql .= " and cliente_apellido like '%$this->cliente_apellido%' ";
         }
 
         if ($this->cliente_nit != '') {
-            $sql .= " and cliente_nit = $this->cliente_nit ";
+            $sql .= " and cliente_nit like '%$this->cliente_nit%' ";
         }
 
         if ($this->cliente_telefono != '') {
-            $sql .= " and cliente_telefono = $this->cliente_telefono ";
+            $sql .= " and cliente_telefono like '%$this->cliente_telefono%' ";
         }
 
         if ($this->cliente_id != null) {
@@ -54,5 +54,13 @@ class Cliente extends Conexion
 
         $resultado = self::servir($sql);
         return $resultado;
+    }
+
+    public function modificar()
+    {
+         $sql = "UPDATE clientes SET cliente_nombre = '$this->cliente_nombre', cliente_apellido = '$this->cliente_apellido', cliente_nit = '$this->cliente_nit', cliente_telefono = '$this->cliente_telefono' where cliente_id = $this->cliente_id";
+
+         $resultado = self::ejecutar($sql);
+         return $resultado;
     }
 }

@@ -5,8 +5,6 @@ header('Content-Type: application/json; charset=UTF-8');
 $metodo = $_SERVER['REQUEST_METHOD'];
 $tipo = $_REQUEST['tipo'];
 
-// echo json_encode($_GET);
-// exit;
 try {
     switch ($metodo) {
         case 'POST':
@@ -18,6 +16,10 @@ try {
                     $mensaje = "Guardado correctamente";
                     break;
 
+                case '2':
+                    $ejecucion = $cliente->modificar();
+                    $mensaje = "Modificado correctamente";
+                    break;
                 default:
 
                     break;
@@ -28,6 +30,7 @@ try {
                 "codigo" => 1,
             ]);
             break;
+
         case 'GET':
             http_response_code(200);
             $cliente = new Cliente($_GET);
