@@ -3,7 +3,7 @@
     <h1 class="text-center">Formulario de Clientes</h1>
     <div class="row justify-content-center mb-3">
         <form class="col-lg-8 border bg-light p-3">
-            <input type="hidden" name="producto_id" id="producto_id">
+            <input type="hidden" name="cliente_id" id="cliente_id">
             <div class="row mb-3">
                 <div class="col">
                     <label for="cliente_nombre">Nombre</label>
@@ -50,7 +50,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8 table-responsive">
             <h2 class="text-center">Listado de Clientes</h2>
-            <table class="table table-bordered table-hover" id="tablaProductos">
+            <table class="table table-bordered table-hover" id="tablaClientes">
                 <thead>
                     <tr>
                         <th>No.</th>
