@@ -165,6 +165,21 @@ const llenardatos = (cliente) => {
 
 }
 
+const cancelar = (clientes) => {
+
+    formulario.cliente_id.value = ''
+    formulario.cliente_nombre.value = ''
+    formulario.cliente_apellido.value = ''
+    formulario.cliente_nit.value = ''
+    formulario.cliente_telefono.value = ''
+    btnBuscar.parentElement.style.display = ''
+    btnGuardar.parentElement.style.display = ''
+    btnLimpiar.parentElement.style.display = ''
+    btnModificar.parentElement.style.display = 'none'
+    btnCancelar.parentElement.style.display = 'none'
+
+}
+
 const modificar = async(e) => {
     e.preventDefault();
     btnModificar.disabled = true;
@@ -239,8 +254,13 @@ const modificar = async(e) => {
         }).fire();
     }
     btnModificar.disabled = false;
+
+    
 }
+
+btnCancelar.disabled = false;
 
 formulario.addEventListener('submit', guardarCliente)
 btnBuscar.addEventListener('click', getClientes)
 btnModificar.addEventListener('click', modificar)
+btnCancelar.addEventListener('click', cancelar)
