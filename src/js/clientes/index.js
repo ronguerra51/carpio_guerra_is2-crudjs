@@ -271,6 +271,7 @@ const eliminarCliente = async (cliente_id) => {
             console.log('Respuesta recibida:', data);
             const { mensaje, codigo } = data;
             if (respuesta.ok && codigo === 1) {
+                getClientes();
                 Swal.mixin({
                     toast: true,
                     position: "top-end",
