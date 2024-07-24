@@ -63,10 +63,11 @@ const getClientes = async () => {
 
                     buttonModificar.textContent = 'Modificar'
                     buttonModificar.classList.add('btn', 'btn-warning', 'w-100')
-                    buttonModificar.addEventListener('click', () => llenardatos(cliente) )
+                    buttonModificar.addEventListener('click', () => llenardatos(cliente))
 
-                    buttonEliminar.textContent = 'Eliminar'
-                    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+                    buttonEliminar.textContent = 'Eliminar';
+                    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100');
+                    buttonEliminar.addEventListener('click', () => eliminarCliente(cliente.cliente_id));
 
                     celda6.appendChild(buttonModificar)
                     celda7.appendChild(buttonEliminar)
@@ -163,27 +164,12 @@ const llenardatos = (cliente) => {
     btnModificar.parentElement.style.display = ''
     btnCancelar.parentElement.style.display = ''
 
-}
+};
 
-const cancelar = (clientes) => {
-
-    formulario.cliente_id.value = ''
-    formulario.cliente_nombre.value = ''
-    formulario.cliente_apellido.value = ''
-    formulario.cliente_nit.value = ''
-    formulario.cliente_telefono.value = ''
-    btnBuscar.parentElement.style.display = ''
-    btnGuardar.parentElement.style.display = ''
-    btnLimpiar.parentElement.style.display = ''
-    btnModificar.parentElement.style.display = 'none'
-    btnCancelar.parentElement.style.display = 'none'
-
-}
-
-const modificar = async(e) => {
+const modificar = async (e) => {
     e.preventDefault();
     btnModificar.disabled = true;
-     
+
     const url = '/carpio_guerra_is2-crudjs/controllers/clientes/index.php';
     const formData = new FormData(formulario);
     formData.append('tipo', 2);
@@ -220,7 +206,7 @@ const modificar = async(e) => {
             btnLimpiar.parentElement.style.display = ''
             btnModificar.parentElement.style.display = 'none'
             btnCancelar.parentElement.style.display = 'none'
-         
+
         } else {
             console.log('Error:', detalle);
             Swal.mixin({
@@ -254,11 +240,99 @@ const modificar = async(e) => {
         }).fire();
     }
     btnModificar.disabled = false;
+    btnCancelar.disabled = false;
+};
 
-    
+const eliminarCliente = async (cliente_id) => {
+    const confirmacion = await Swal.fire({
+        title: '¿Estás seguro de eliminar a este cliente?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+    });
+
+    // Verificar si el usuario confirmó la eliminación
+    if (confirmacion.isConfirmed) {
+        const url = '/carpio_guerra_is2-crudjs/controllers/clientes/index.php';
+        const formData = new FormData();
+        formData.append('cliente_id', cliente_id);
+        formData.append('tipo', 3);
+        const config = {
+            method: 'POST',
+            body: formData
+        };
+
+        try {
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+            console.log('Respuesta recibida:', data);
+            const { mensaje, codigo } = data;
+            if (respuesta.ok && codigo === 1) {
+                Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    icon: "success",
+                    title: mensaje,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                }).fire();
+                // getclientes();
+            } else {
+                Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    icon: "error",
+                    title: 'Error al eliminar',
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                }).fire();
+            }
+        } catch (error) {
+            console.log('Error de conexión:', error);
+            Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                icon: "error",
+                title: 'Error de conexión',
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            }).fire();
+        }
+    }
 }
 
-btnCancelar.disabled = false;
+const cancelar = (clientes) => {
+
+    formulario.cliente_id.value = ''
+    formulario.cliente_nombre.value = ''
+    formulario.cliente_apellido.value = ''
+    formulario.cliente_nit.value = ''
+    formulario.cliente_telefono.value = ''
+    btnBuscar.parentElement.style.display = ''
+    btnGuardar.parentElement.style.display = ''
+    btnLimpiar.parentElement.style.display = ''
+    btnModificar.parentElement.style.display = 'none'
+    btnCancelar.parentElement.style.display = 'none'
+
+};
 
 formulario.addEventListener('submit', guardarCliente)
 btnBuscar.addEventListener('click', getClientes)

@@ -20,6 +20,12 @@ try {
                     $ejecucion = $cliente->modificar();
                     $mensaje = "Modificado correctamente";
                     break;
+
+                case '3':
+                    $ejecucion = $cliente->eliminar();
+                    $mensaje = "Eliminado correctamente";
+                    break;
+
                 default:
 
                     break;

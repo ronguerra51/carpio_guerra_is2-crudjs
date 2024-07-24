@@ -63,4 +63,14 @@ class Cliente extends Conexion
          $resultado = self::ejecutar($sql);
          return $resultado;
     }
+
+
+    public function eliminar()
+    {
+        $sql = "UPDATE clientes SET cliente_situacion = 0 where cliente_id = $this->cliente_id";
+
+        $resultado = self::ejecutar($sql);
+        return $resultado;
+    }
+
 }
